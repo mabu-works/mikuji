@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>おみくじ | 今日の運勢</title>
+<meta name="description" content="1日1回引けるおみくじ。今日の運勢、ラッキーアイテム、連続訪問記録つき。">
+<meta name="theme-color" content="#b91c1c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container">
+  <header class="app-header">
+    <div class="app-icon" aria-hidden="true">運</div>
+    <h1>おみくじ</h1>
+    <p class="tagline">1日1回、今日の運勢を引いてみましょう。<br>その日は何度開いても同じ結果です。</p>
+    <p class="streak" id="streakText"></p>
+  </header>
+
+  <section class="card draw-card">
+    <label class="field-label" for="nameInput">名前（任意）</label>
+    <input type="text" id="nameInput" placeholder="入れると名前入りの運勢になります" maxlength="20" autocomplete="off">
+    <div class="mikuji-box" id="mikujiBox" aria-hidden="true">
+      <div class="box-body">
+        <span class="box-label">おみくじ</span>
+      </div>
+      <div class="box-stick"></div>
+    </div>
+    <button id="drawBtn" class="primary-btn" type="button">おみくじを引く</button>
+    <p class="note" id="drawnNote" hidden>今日はもう引いています。結果は下のとおりです。</p>
+  </section>
+
+  <section class="card result-card" id="resultCard" hidden>
+    <p class="result-date" id="resultDate"></p>
+    <div class="fortune" id="fortuneText"></div>
+    <p class="result-for" id="resultFor"></p>
+    <p class="hitokoto" id="hitokotoText"></p>
+    <dl class="details">
+      <div><dt>ラッキーアイテム</dt><dd id="luckyItem"></dd></div>
+      <div><dt>ラッキーカラー</dt><dd><span class="color-dot" id="colorDot"></span><span id="luckyColor"></span></dd></div>
+    </dl>
+    <div class="mini-fortunes">
+      <div class="mini"><h3>願い事</h3><p id="miniWish"></p></div>
+      <div class="mini"><h3>学業・仕事</h3><p id="miniWork"></p></div>
+      <div class="mini"><h3>恋愛</h3><p id="miniLove"></p></div>
+    </div>
+    <div class="actions">
+      <button id="downloadBtn" class="secondary-btn" type="button">結果カードを画像で保存</button>
+      <a id="shareLink" class="share-btn" href="#" target="_blank" rel="noopener">Xで共有する</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="section-title">引いた履歴</h2>
+    <p class="empty" id="historyEmpty">まだ履歴がありません。</p>
+    <ul class="history" id="historyList"></ul>
+  </section>
+
+  <canvas id="cardCanvas" width="1200" height="630" hidden></canvas>
+
+  <footer class="app-footer">
+    <p>運勢は日付（と名前）から決まります。履歴と連続日数はこの端末の中だけに保存されます。</p>
+  </footer>
+</main>
+<script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
