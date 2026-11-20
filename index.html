@@ -5,16 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>おみくじ | 今日の運勢</title>
 <meta name="description" content="1日1回引けるおみくじ。今日の運勢、ラッキーアイテム、連続訪問記録つき。">
-<meta name="theme-color" content="#b91c1c">
+<meta name="theme-color" content="#0a0f1c">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
+<script>
+try {
+  var savedTheme = localStorage.getItem("mikuji-theme");
+  if (savedTheme === "light" || savedTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+} catch (e) { /* テーマ保存が使えない環境ではダークを既定にする */ }
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="container">
+<nav class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#top">おみくじ</a>
+    <span class="topbar-links">
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">🌙</button>
+    </span>
+  </div>
+</nav>
+
+<main class="container" id="top">
   <header class="app-header">
     <div class="app-icon" aria-hidden="true">運</div>
+    <p class="eyebrow">DAILY FORTUNE</p>
     <h1>おみくじ</h1>
     <p class="tagline">1日1回、今日の運勢を引いてみましょう。<br>その日は何度開いても同じ結果です。</p>
     <p class="streak" id="streakText"></p>

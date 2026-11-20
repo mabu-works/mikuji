@@ -21,7 +21,7 @@
 - 結果カードを Canvas（1200×630）で描画し、PNGとしてダウンロード可能
 - X共有リンク（intent）で結果テキストを投稿可能
 - PWA対応（ホーム画面に追加可能、オフラインキャッシュ）
-- ダークモード対応（prefers-color-scheme）
+- ダーク／ライトテーマ切り替え対応（ダークが既定、選択は localStorage の `mikuji-theme` に保存）
 
 ## 使い方
 
@@ -35,5 +35,5 @@
 - 素のHTML/CSS/JavaScriptのみ。外部リソース・ライブラリ・Webフォント不使用（日本語フォントはシステムフォントスタック）。
 - 決定的乱数：FNV-1aハッシュ＋mulberry32。シードは `mikuji|日付|名前`。
 - ストリーク判定：最終訪問日が昨日なら+1、今日なら維持、それ以外は1にリセット。
-- Service Worker（`sw.js`）：同一オリジンのGETをキャッシュ（キャッシュ名 `mikuji-v1`、stale-while-revalidate方式）。
+- Service Worker（`sw.js`）：同一オリジンのGETをキャッシュ（キャッシュ名 `mikuji-v2`、stale-while-revalidate方式）。
 - アイコンは Python PIL で生成（角丸の赤背景＋白文字「運」、192px / 512px）。

@@ -188,7 +188,9 @@ return streak;
 function recordHistory(result) {
 const history = loadHistory();
 if (!history.some((h) => h.date === result.date)) {
-history.unshift({ date: result.date, fortune: result.fortune});
+// 名前も保存する：結果は「日付＋名前」から決定的に決まるため、
+// 開き直したときに引いた時点の結果をそのまま再現できる
+history.unshift({ date: result.date, fortune: result.fortune, name: result.name});
 saveHistory(history);
 }
 return loadHistory();
@@ -263,11 +265,14 @@ resultCard.hidden = false;
 }
 
 // 今日すでに引いている場合は、開いた時点で結果を表示する
+// 復元は履歴に保存した名前で再計算する（空の名前欄で再計算すると、
+// 名前を入れて引いた人では履歴と違う結果が表示されてしまうため）
 (function initToday() {
 const history = loadHistory();
-if (history.some((h) => h.date === todayString())) {
+const todayEntry = history.find((h) => h.date === todayString());
+if (todayEntry) {
 drawnNote.hidden = false;
-showResult(computeFortune(nameInput.value.trim(), todayString()));
+showResult(computeFortune(todayEntry.name || "", todayString()));
 }
 renderHistory();
 })();
@@ -355,3 +360,27 @@ a.download = `mikuji-${todayString()}.png`;
 a.href = canvas.toDataURL("image/png");
 a.click();
 });
+
+// ===== テーマ切り替え（ダーク既定／ライト） =====
+(function initTheme() {
+var root = document.documentElement;
+if (!root || !root.getAttribute || !root.setAttribute) return;
+function apply(theme) {
+root.setAttribute("data-theme", theme);
+var btn = document.getElementById("themeToggle");
+if (btn) btn.textContent = theme === "light" ? "☀️" : "🌙";
+}
+var current = root.getAttribute("data-theme");
+if (current !== "light" && current !== "dark") {
+try { current = localStorage.getItem("mikuji-theme"); } catch { current = null; }
+}
+apply(current === "light" ? "light" : "dark");
+var btn = document.getElementById("themeToggle");
+if (btn && btn.addEventListener) {
+btn.addEventListener("click", function () {
+var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+apply(next);
+try { localStorage.setItem("mikuji-theme", next); } catch { /* 保存できなくても切り替え自体は有効 */ }
+});
+}
+})();
