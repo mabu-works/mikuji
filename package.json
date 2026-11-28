@@ -1,0 +1,1 @@
+{"description":"1日1回引けるおみくじ。今日の運勢、ラッキーアイテム、連続訪問記録つき。","name":"mikuji","private":true,"scripts":{"check":"node --check app.js && node --check sw.js","test":"node --test tests/*.test.js"},"version":"1.0.0"}
